@@ -1,0 +1,30 @@
+# importing all compulsory module
+
+import telebot
+from telebot import types
+
+
+# Bot Token
+
+bot = telebot.TeleBot('5479444177:AAFXWlymZeW2m84_8Cw1_Vb8u2KiEGridXI')
+bot.remove_webhook()
+
+# for /start command
+
+@bot.message_handler(commands=['start'])
+def welcome(message):
+    first_name = message.from_user.first_name
+    user_name = message.from_user.id
+    link = f"<a href='tg://user?id={user_name}'>{first_name}</a>"
+    welcome_message = f"👋<b> Hello {link} </b>! \n\n Welcome to <a href='https://t.me/pipbluebot'>MeetMe</a>, your perfect companion for finding like-minded people to chat with based on your preferences.\n\n Looking to connect with individuals who share your interests, hobbies, or simply looking for some engaging conversations? <b>MeetMe</b> is here to assist you!\n\n Whether you're passionate about art, technology, music, travel, or any other topic under the sun,i will help you discover and connect with fascinating individuals who are eager to have a chat.\n\n Simply read our <b>Terms & Conditions, Accept it</b> and provide me with a few details about your preferences, and i will do the rest. You'll be matched with compatible users who are excited to meet someone just like you."
+    keyboard = types.InlineKeyboardMarkup()
+    keyboard.add(types.InlineKeyboardButton(text='Read Terms & Conditions📜', callback_data='t&c'))
+    bot.send_message(message.chat.id, welcome_message, parse_mode='HTML', reply_markup=keyboard)
+
+
+@def.callback_query_handler(func=lamda call:True)
+def terms_data(call):
+    if call.data == "t&c":
+        bot.send_message(call.message.chat.id, "hi")
+    
+bot.polling()
